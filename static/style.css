@@ -1,0 +1,111 @@
+body{
+    background-color: #121212;
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+h2 {
+  color: #E2D9D9;
+  font-family: Monospace;
+  font-size: 40px
+}
+
+h3 {
+  color: #D26BCC;
+  font-family: Monospace;
+  font-size: 22px
+
+}
+
+h4 {
+  color: #D26BCC;
+  font-family: Monospace;
+  font-size: 12px
+
+}
+
+.menu {
+    display:flex;
+    margin: 5px;
+    width: auto;
+    height: 50px;
+    background-color: #121212;
+    flex-flow: row; wrap;
+    text-align: center;
+    justify content: space-between;
+
+}
+
+.containersub{
+    background-color: #121212;
+    width: auto;
+    height: auto;
+}
+
+.container2 {
+    display:flex;
+    width: auto;
+    height: auto;
+    background-color: #121212;
+    align-content: center;
+    align-items: center;
+    justify-content: center;
+    flex-flow: row; wrap;
+    text-align: center
+
+}
+.title{
+    background-color: #121212;
+    position: relative;
+    padding: 100px
+
+
+}
+.account {
+    background-color: #121212;
+    box-shadow: 0 0 10px #73FFFB;
+    width: 350px;
+    height: auto;
+    margin: 5px;
+    border-radius: 15px;
+    padding: 10px;
+    text-align: center
+}
+
+.position {
+    background-color: #121212;
+    box-shadow: 0 0 10px #73FFFB;
+    width: auto;
+    height: auto;
+    margin: 5px;
+    border-radius: 15px;
+    padding: 10px;
+    text-align: center
+}
+
+.details {
+    background-color: #121212;
+    box-shadow: 0 0 10px #73FFFB;
+    width: auto;
+    height: auto;
+    margin: 5px;
+    border-radius: 15px;
+    padding: 10px;
+    text-align: center
+}
+
+.lickhunter {
+}
+
+.chart {
+    background-color: #121212;
+    margin: 20px;
+    width: 800px;
+    height: 600px;
+    text-align: center;
+    position: relative;
+    right: 85px;
+    box-shadow: 0 0 10px #73FFFB;
+
+}
+

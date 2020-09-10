@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+    <link rel='icon' href='/static/favicon.ico' type='image/x-icon'/ >
+
+    <script type="text/javascript">
+    function loadref(time)
+    {
+    setTimeout("location.reload(true) ;",time) ;
+    }
+    </script>
+
+
+    <title>Bot Tracker</title>
+
+
+</head>
+<body onload="Javascript:loadref(500000)">
+
+
+    <div class="menu">
+
+    </div>
+
+    <div class="container2">
+
+
+        <div class="chart">
+            <h2> BOT STATS </h2>
+            <h3> TOTAL BALANCE $: {{total}}</h3>
+
+
+
+
+            <form action="https://discord.gg/RR6sJ5D">
+                <input type="submit" value="Join The Discord" />
+            </form>
+
+
+        </div>
+
+
+    </div>
+
+</body>
+
+
+
+
+</html>
