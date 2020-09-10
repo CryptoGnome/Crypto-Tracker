@@ -13,15 +13,23 @@ def index():
         conn = sqlite3.connect('tracker.db')
         c = conn.cursor()
         c.execute('SELECT * FROM account1')
-        data = c.fetchall()
-        today = data[-1]
+        datas = c.fetchall()
+        data = datas[-1]
+        today = round(data[2], 4)
+        pnl = round(data[3], 4)
+        daily = round(data[4], 4)
 
+        c.execute('SELECT * FROM account2')
+        datas2 = c.fetchall()
+        data2 = datas2[-1]
+        today2 = round(data2[2], 4)
+        pnl2 = round(data2[3], 4)
+        daily2 = round(data2[4], 4)
 
-        total = today[2]
+        conn.commit()
+        conn.close()
 
-
-
-        return render_template('index.html', total=total, )
+        return render_template('index.html', today=today, pnl=pnl, daily=daily, today2=today2, pnl2=pnl2, daily2=daily2)
 
 
 

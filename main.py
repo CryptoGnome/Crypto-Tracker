@@ -160,4 +160,4 @@ def run():
 while True:
     run()
     print("Closing Connection...")
-    sleep(15)
+    sleep(60)
