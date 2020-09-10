@@ -26,10 +26,17 @@ def index():
         pnl2 = round(data2[3], 4)
         daily2 = round(data2[4], 4)
 
+        c.execute('SELECT * FROM account3')
+        datas3 = c.fetchall()
+        data3 = datas3[-1]
+        today3 = round(data3[2], 4)
+        pnl3 = round(data3[3], 4)
+        daily3 = round(data3[4], 4)
+
         conn.commit()
         conn.close()
 
-        return render_template('index.html', today=today, pnl=pnl, daily=daily, today2=today2, pnl2=pnl2, daily2=daily2)
+        return render_template('index.html', today=today, pnl=pnl, daily=daily, today2=today2, pnl2=pnl2, daily2=daily2, today3=today3, pnl3=pnl3, daily3=daily3)
 
 
 

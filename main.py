@@ -123,6 +123,182 @@ def binance(accountDB, key, secret, start):
 
     print("Data Added")
 
+def bybit(accountDB, key, secret, start, asset):
+    print("Checking Bybit")
+    bybit = ccxt.bybit({
+        'apiKey': key,
+        'secret': secret,
+    })
+
+    # get Account Balance
+    params = {
+        'coin': asset
+    }
+    data = bybit.fetch_balance(params=params)
+    account = data['info']['result']['BTC']
+    balance = round(float(account['equity']), 7)
+
+    todayCalc = datetime.date.today()
+    yesterdayCalc = todayCalc - datetime.timedelta(days=1)
+    today = str(todayCalc)
+    yesterday = str(yesterdayCalc)
+    pnl = 0
+    daily = 0
+
+    # read Current Data in DB
+    conn = sqlite3.connect('tracker.db')
+    c = conn.cursor()
+
+    # see if today already exists
+    try:
+        print("Checking for Todays Data")
+        c.execute('SELECT * FROM ' + accountDB)
+        data = c.fetchall()
+        # [print(row) for row in data]
+
+        # grab yestersterdays data
+
+        print("Grabbing Yesterdays Data")
+        c.execute('SELECT * FROM ' + accountDB + ' WHERE date = ?', (yesterday,))
+        dates = c.fetchall()
+
+        if dates:
+            for data in dates:
+                print("Calculating PNL $$$")
+                pnl = round(data[2] - data[1], 6)
+                daily = round(pnl / data[1] * 100, 6)
+                start = data[2]
+        else:
+            pnl = round(balance - start, 6 )
+            daily = round(pnl / start * 100, 6)
+
+    except OperationalError:
+        print("Error in Line")
+        create(accountDB, start)
+        return
+    # print Exisiting Data in Table
+    # [print(row) for row in data]
+
+    print("Inserting New Values")
+    # Delete Existting Data when updating
+    try:
+        c.execute('SELECT * FROM ' + accountDB)
+        c.execute('DELETE FROM ' + accountDB + ' WHERE date = ?', (today,))
+        conn.commit()
+        start = data[2]
+        pnl = balance - start
+        daily = pnl / start * 100
+        c.execute('INSERT INTO ' + accountDB + ' VALUES (?, ?, ? , ?, ?)',
+                  (today, start, balance, pnl, daily))
+
+        conn.commit()
+        conn.close()
+    except OperationalError:
+        print("Error In line 2")
+        create(accountDB, start)
+        return
+    except IndexError:
+        c.execute('SELECT * FROM ' + accountDB)
+        c.execute('DELETE FROM ' + accountDB + ' WHERE date = ?', (today,))
+        conn.commit()
+        start = start
+        pnl = round(balance - start, 6)
+        daily = round(pnl / start * 100, 6)
+        c.execute('INSERT INTO ' + accountDB + ' VALUES (?, ?, ? , ?, ?)',
+                  (today, start, balance, pnl, daily))
+
+        conn.commit()
+        conn.close()
+
+    print("Data Added")
+
+
+def ftx(accountDB, key, secret, start, asset):
+    print("Checking FTX")
+    ftx = ccxt.ftx({
+        'apiKey': key,
+        'secret': secret,
+    })
+
+    # get Account Balance
+    account = ftx.privateGetAccount()['result']
+    balance = round(float(account['collateral']), 2)
+
+    todayCalc = datetime.date.today()
+    yesterdayCalc = todayCalc - datetime.timedelta(days=1)
+    today = str(todayCalc)
+    yesterday = str(yesterdayCalc)
+    pnl = 0
+    daily = 0
+
+    # read Current Data in DB
+    conn = sqlite3.connect('tracker.db')
+    c = conn.cursor()
+
+    # see if today already exists
+    try:
+        print("Checking for Todays Data")
+        c.execute('SELECT * FROM ' + accountDB)
+        data = c.fetchall()
+        # [print(row) for row in data]
+
+        # grab yestersterdays data
+
+        print("Grabbing Yesterdays Data")
+        c.execute('SELECT * FROM ' + accountDB + ' WHERE date = ?', (yesterday,))
+        dates = c.fetchall()
+
+        if dates:
+            for data in dates:
+                print("Calculating PNL $$$")
+                pnl = round(data[2] - data[1], 6)
+                daily = round(pnl / data[1] * 100, 6)
+                start = data[2]
+        else:
+            pnl = round(balance - start, 6)
+            daily = round(pnl / start * 100, 6)
+
+    except OperationalError:
+        print("Error in Line")
+        create(accountDB, start)
+        return
+    # print Exisiting Data in Table
+    # [print(row) for row in data]
+
+    print("Inserting New Values")
+    # Delete Existting Data when updating
+    try:
+        c.execute('SELECT * FROM ' + accountDB)
+        c.execute('DELETE FROM ' + accountDB + ' WHERE date = ?', (today,))
+        conn.commit()
+        start = data[2]
+        pnl = balance - start
+        daily = pnl / start * 100
+        c.execute('INSERT INTO ' + accountDB + ' VALUES (?, ?, ? , ?, ?)',
+                  (today, start, balance, pnl, daily))
+
+        conn.commit()
+        conn.close()
+    except OperationalError:
+        print("Error In line 2")
+        create(accountDB, start)
+        return
+    except IndexError:
+        c.execute('SELECT * FROM ' + accountDB)
+        c.execute('DELETE FROM ' + accountDB + ' WHERE date = ?', (today,))
+        conn.commit()
+        start = start
+        pnl = round(balance - start, 6)
+        daily = round(pnl / start * 100, 6)
+        c.execute('INSERT INTO ' + accountDB + ' VALUES (?, ?, ? , ?, ?)',
+                  (today, start, balance, pnl, daily))
+
+        conn.commit()
+        conn.close()
+
+    print("Data Added")
+
+
 def run():
 
     if use_account1 == True:
@@ -133,11 +309,12 @@ def run():
         secret = creds[2]
         start = creds[3]
         accountDB = creds[4]
+        asset = creds[5]
         #Route to the correct echange to read & write data
         if exchange == 'binance':
             binance(accountDB, key, secret, start)
         if exchange == 'bybit':
-            pass
+            bybit(accountDB, key, secret, start, asset)
         if exchange == 'ftx':
             pass
 
@@ -149,13 +326,65 @@ def run():
         secret = creds[2]
         start = creds[3]
         accountDB = creds[4]
+        asset = creds[5]
         #Route to the correct echange to read & write data
         if exchange == 'binance':
             binance(accountDB, key, secret, start)
         if exchange == 'bybit':
-            pass
+            bybit(accountDB, key, secret, start, asset)
         if exchange == 'ftx':
             pass
+
+    if use_account3 == True:
+        # Fetch Credentials to find Exchange & Route Data this is found in the accounts.py file
+        creds = credentials['account_three']
+        exchange = creds[0]
+        key = creds[1]
+        secret = creds[2]
+        start = creds[3]
+        accountDB = creds[4]
+        asset = creds[5]
+        #Route to the correct echange to read & write data
+        if exchange == 'binance':
+            binance(accountDB, key, secret, start)
+        if exchange == 'bybit':
+            bybit(accountDB, key, secret, start, asset)
+        if exchange == 'ftx':
+            pass
+    if use_account4 == True:
+        # Fetch Credentials to find Exchange & Route Data this is found in the accounts.py file
+        creds = credentials['account_four']
+        exchange = creds[0]
+        key = creds[1]
+        secret = creds[2]
+        start = creds[3]
+        accountDB = creds[4]
+        asset = creds[5]
+        #Route to the correct echange to read & write data
+        if exchange == 'binance':
+            binance(accountDB, key, secret, start)
+        if exchange == 'bybit':
+            bybit(accountDB, key, secret, start, asset)
+        if exchange == 'ftx':
+            pass
+
+    if use_account5 == True:
+        # Fetch Credentials to find Exchange & Route Data this is found in the accounts.py file
+        creds = credentials['account_five']
+        exchange = creds[0]
+        key = creds[1]
+        secret = creds[2]
+        start = creds[3]
+        accountDB = creds[4]
+        asset = creds[5]
+        #Route to the correct echange to read & write data
+        if exchange == 'binance':
+            binance(accountDB, key, secret, start)
+        if exchange == 'bybit':
+            bybit(accountDB, key, secret, start, asset)
+        if exchange == 'ftx':
+            ftx(accountDB, key, secret, start, asset)
+
 
 while True:
     run()
