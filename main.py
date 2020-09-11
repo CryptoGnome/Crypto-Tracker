@@ -10,10 +10,10 @@ def create(accountDB, start):
     print("DB does not Exist Yet, Creating Now")
     conn = sqlite3.connect('tracker.db')
     c = conn.cursor()
-    c.execute('CREATE TABLE ' + accountDB + ' (date text, start integer, today integer, pnl integer, daily integer)')
+    c.execute('CREATE TABLE ' + accountDB + ' (date text, start integer, today integer, pnl integer, daily integer, nickname text)')
     conn.commit()
-    c.execute('INSERT INTO ' + accountDB + '  VALUES (?, ?, ? , ?, ?)',
-              ('start', start, 0, 0, 0))
+    c.execute('INSERT INTO ' + accountDB + '  VALUES (?, ?, ? , ?, ?, ?)',
+              ('start', start, 0, 0, 0, 0))
     conn.commit()
     conn.close()
 
@@ -30,7 +30,7 @@ def read_db(exchange):
         conn.commit()
         conn.close()
 
-def binance(accountDB, key, secret, start):
+def binance(accountDB, key, secret, start, nickname):
     exchange_id = 'binance'
     exchange_class = getattr(ccxt, exchange_id)
     exchange = exchange_class({
@@ -99,8 +99,8 @@ def binance(accountDB, key, secret, start):
         start = data[2]
         pnl = binanceBalance - start
         daily = pnl/start * 100
-        c.execute('INSERT INTO ' + accountDB + ' VALUES (?, ?, ? , ?, ?)',
-                  (today, start, binanceBalance, pnl, daily))
+        c.execute('INSERT INTO ' + accountDB + ' VALUES (?, ?, ? , ?, ?, ?)',
+                  (today, start, binanceBalance, pnl, daily, nickname))
 
         conn.commit()
         conn.close()
@@ -115,15 +115,15 @@ def binance(accountDB, key, secret, start):
         start = start
         pnl = binanceBalance - start
         daily = pnl/start * 100
-        c.execute('INSERT INTO ' + accountDB + ' VALUES (?, ?, ? , ?, ?)',
-                  (today, start, binanceBalance, pnl, daily))
+        c.execute('INSERT INTO ' + accountDB + ' VALUES (?, ?, ? , ?, ?, ?)',
+                  (today, start, binanceBalance, pnl, daily, nickname))
 
         conn.commit()
         conn.close()
 
     print("Data Added")
 
-def bybit(accountDB, key, secret, start, asset):
+def bybit(accountDB, key, secret, start, nickname, asset):
     print("Checking Bybit")
     bybit = ccxt.bybit({
         'apiKey': key,
@@ -188,8 +188,8 @@ def bybit(accountDB, key, secret, start, asset):
         start = data[2]
         pnl = balance - start
         daily = pnl / start * 100
-        c.execute('INSERT INTO ' + accountDB + ' VALUES (?, ?, ? , ?, ?)',
-                  (today, start, balance, pnl, daily))
+        c.execute('INSERT INTO ' + accountDB + ' VALUES (?, ?, ? , ?, ?, ?)',
+                  (today, start, balance, pnl, daily, nickname))
 
         conn.commit()
         conn.close()
@@ -204,8 +204,8 @@ def bybit(accountDB, key, secret, start, asset):
         start = start
         pnl = round(balance - start, 6)
         daily = round(pnl / start * 100, 6)
-        c.execute('INSERT INTO ' + accountDB + ' VALUES (?, ?, ? , ?, ?)',
-                  (today, start, balance, pnl, daily))
+        c.execute('INSERT INTO ' + accountDB + ' VALUES (?, ?, ? , ?, ?, ?)',
+                  (today, start, balance, pnl, daily, nickname))
 
         conn.commit()
         conn.close()
@@ -213,7 +213,7 @@ def bybit(accountDB, key, secret, start, asset):
     print("Data Added")
 
 
-def ftx(accountDB, key, secret, start, asset):
+def ftx(accountDB, key, secret, start, nickname):
     print("Checking FTX")
     ftx = ccxt.ftx({
         'apiKey': key,
@@ -274,8 +274,8 @@ def ftx(accountDB, key, secret, start, asset):
         start = data[2]
         pnl = balance - start
         daily = pnl / start * 100
-        c.execute('INSERT INTO ' + accountDB + ' VALUES (?, ?, ? , ?, ?)',
-                  (today, start, balance, pnl, daily))
+        c.execute('INSERT INTO ' + accountDB + ' VALUES (?, ?, ? , ?, ?, ?)',
+                  (today, start, balance, pnl, daily, nickname))
 
         conn.commit()
         conn.close()
@@ -290,8 +290,8 @@ def ftx(accountDB, key, secret, start, asset):
         start = start
         pnl = round(balance - start, 6)
         daily = round(pnl / start * 100, 6)
-        c.execute('INSERT INTO ' + accountDB + ' VALUES (?, ?, ? , ?, ?)',
-                  (today, start, balance, pnl, daily))
+        c.execute('INSERT INTO ' + accountDB + ' VALUES (?, ?, ? , ?, ?, ?)',
+                  (today, start, balance, pnl, daily, nickname))
 
         conn.commit()
         conn.close()
@@ -310,13 +310,14 @@ def run():
         start = creds[3]
         accountDB = creds[4]
         asset = creds[5]
+        nickname = creds[6]
         #Route to the correct echange to read & write data
         if exchange == 'binance':
-            binance(accountDB, key, secret, start)
+            binance(accountDB, key, secret, start, nickname)
         if exchange == 'bybit':
-            bybit(accountDB, key, secret, start, asset)
+            bybit(accountDB, key, secret, start, nickname, asset)
         if exchange == 'ftx':
-            pass
+            ftx(accountDB, key, secret, start, nickname)
 
     if use_account2 == True:
         # Fetch Credentials to find Exchange & Route Data this is found in the accounts.py file
@@ -327,13 +328,14 @@ def run():
         start = creds[3]
         accountDB = creds[4]
         asset = creds[5]
+        nickname = creds[6]
         #Route to the correct echange to read & write data
         if exchange == 'binance':
-            binance(accountDB, key, secret, start)
+            binance(accountDB, key, secret, start, nickname)
         if exchange == 'bybit':
-            bybit(accountDB, key, secret, start, asset)
+            bybit(accountDB, key, secret, start, nickname, asset)
         if exchange == 'ftx':
-            pass
+            ftx(accountDB, key, secret, start, nickname)
 
     if use_account3 == True:
         # Fetch Credentials to find Exchange & Route Data this is found in the accounts.py file
@@ -344,13 +346,14 @@ def run():
         start = creds[3]
         accountDB = creds[4]
         asset = creds[5]
+        nickname = creds[6]
         #Route to the correct echange to read & write data
         if exchange == 'binance':
-            binance(accountDB, key, secret, start)
+            binance(accountDB, key, secret, start, nickname)
         if exchange == 'bybit':
-            bybit(accountDB, key, secret, start, asset)
+            bybit(accountDB, key, secret, start, nickname, asset)
         if exchange == 'ftx':
-            pass
+            ftx(accountDB, key, secret, start, nickname)
     if use_account4 == True:
         # Fetch Credentials to find Exchange & Route Data this is found in the accounts.py file
         creds = credentials['account_four']
@@ -360,13 +363,14 @@ def run():
         start = creds[3]
         accountDB = creds[4]
         asset = creds[5]
+        nickname = creds[6]
         #Route to the correct echange to read & write data
         if exchange == 'binance':
-            binance(accountDB, key, secret, start)
+            binance(accountDB, key, secret, start, nickname)
         if exchange == 'bybit':
-            bybit(accountDB, key, secret, start, asset)
+            bybit(accountDB, key, secret, start, nickname, asset)
         if exchange == 'ftx':
-            pass
+            ftx(accountDB, key, secret, start, nickname)
 
     if use_account5 == True:
         # Fetch Credentials to find Exchange & Route Data this is found in the accounts.py file
@@ -377,13 +381,14 @@ def run():
         start = creds[3]
         accountDB = creds[4]
         asset = creds[5]
+        nickname = creds[6]
         #Route to the correct echange to read & write data
         if exchange == 'binance':
-            binance(accountDB, key, secret, start)
+            binance(accountDB, key, secret, start, nickname)
         if exchange == 'bybit':
-            bybit(accountDB, key, secret, start, asset)
+            bybit(accountDB, key, secret, start, nickname, asset)
         if exchange == 'ftx':
-            ftx(accountDB, key, secret, start, asset)
+            ftx(accountDB, key, secret, start, nickname)
 
 
 while True:

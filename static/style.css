@@ -5,13 +5,13 @@ body{
 }
 
 h2 {
-  color: #E2D9D9;
+  color: #28df99;
   font-family: Monospace;
   font-size: 40px
 }
 
 h3 {
-  color: #D26BCC;
+  color: #f4f4f4;
   font-family: Monospace;
   font-size: 22px
 
@@ -36,10 +36,28 @@ h4 {
 
 }
 
-.containersub{
+.footer {
+    margin: 5px;
+    width: auto;
+    height: 10px;
     background-color: #121212;
+    text-align: center;
+    position: relative;
+    padding: 30px;
+}
+
+
+.container {
+    display:flex;
     width: auto;
     height: auto;
+    background-color: #121212;
+    align-content: center;
+    align-items: center;
+    justify-content: center;
+    flex-flow: row; wrap;
+    text-align: center
+
 }
 
 .container2 {
@@ -54,21 +72,16 @@ h4 {
     text-align: center
 
 }
-.title{
-    background-color: #121212;
-    position: relative;
-    padding: 100px
 
 
-}
 .account {
     background-color: #121212;
-    box-shadow: 0 0 10px #73FFFB;
-    width: 350px;
+    box-shadow: 0 0 10px #f6f7d4;
+    width: 400px;
     height: auto;
-    margin: 5px;
+    margin: 15px;
     border-radius: 15px;
-    padding: 10px;
+    padding: 7px;
     text-align: center
 }
 
@@ -94,18 +107,5 @@ h4 {
     text-align: center
 }
 
-.lickhunter {
-}
 
-.chart {
-    background-color: #121212;
-    margin: 20px;
-    width: 800px;
-    height: 600px;
-    text-align: center;
-    position: relative;
-    right: 85px;
-    box-shadow: 0 0 10px #73FFFB;
-
-}
 
