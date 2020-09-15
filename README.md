@@ -30,5 +30,4 @@ https://github.com/CryptoGnome/Crypto-Tracker/archive/master.zip
 
 To view from outside source you mus edit the app.py file to match your public ip & set a custom port usign the code below, you then must open the port to outside traffic.
 
-```if __name__ == '__main__':```
-   ``` app.run(host="0.0.0.0", port=8081)```
+``` app.run(host="0.0.0.0", port=8081)```
