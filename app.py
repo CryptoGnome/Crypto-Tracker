@@ -42,10 +42,10 @@ def index():
             conn.close()
 
         else:
-            today6 = 0
-            pnl6 = 0
-            daily6 = 0
-            nickname6 = 'EMPTY'
+            today1 = 0
+            pnl1 = 0
+            daily1 = 0
+            nickname1 = 'EMPTY'
 
         if use_account2 == True:
             conn = sqlite3.connect('tracker.db')
@@ -73,10 +73,10 @@ def index():
             conn.close()
 
         else:
-            today6 = 0
-            pnl6 = 0
-            daily6 = 0
-            nickname6 = 'EMPTY'
+            today2 = 0
+            pnl2 = 0
+            daily2 = 0
+            nickname2 = 'EMPTY'
 
         if use_account3 == True:
             conn = sqlite3.connect('tracker.db')
@@ -102,6 +102,12 @@ def index():
             dates3 = c.execute('SELECT date FROM account3 WHERE rowid > 1').fetchall()
             conn.commit()
             conn.close()
+
+        else:
+            today3 = 0
+            pnl3 = 0
+            daily3 = 0
+            nickname3 = 'EMPTY'
 
         if use_account4 == True:
             conn = sqlite3.connect('tracker.db')
@@ -129,10 +135,10 @@ def index():
             conn.close()
 
         else:
-            today6 = 0
-            pnl6 = 0
-            daily6 = 0
-            nickname6 = 'EMPTY'
+            today4 = 0
+            pnl4 = 0
+            daily4 = 0
+            nickname4 = 'EMPTY'
 
         if use_account5 == True:
             conn = sqlite3.connect('tracker.db')
@@ -159,10 +165,10 @@ def index():
             conn.commit()
             conn.close()
         else:
-            today6 = 0
-            pnl6 = 0
-            daily6 = 0
-            nickname6 = 'EMPTY'
+            today5 = 0
+            pnl5 = 0
+            daily5 = 0
+            nickname5 = 'EMPTY'
 
         if use_account6 == True:
             conn = sqlite3.connect('tracker.db')

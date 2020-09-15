@@ -135,7 +135,7 @@ def bybit(accountDB, key, secret, start, nickname, asset):
         'coin': asset
     }
     data = bybit.fetch_balance(params=params)
-    account = data['info']['result']['BTC']
+    account = data['info']['result'][asset]
     balance = round(float(account['equity']), 7)
 
     todayCalc = datetime.date.today()
@@ -173,7 +173,7 @@ def bybit(accountDB, key, secret, start, nickname, asset):
             daily = round(pnl / start * 100, 6)
 
     except OperationalError:
-        print("Error in Line")
+        #print("Error in Line")
         create(accountDB, start)
         return
     # print Exisiting Data in Table
@@ -375,6 +375,24 @@ def run():
     if use_account5 == True:
         # Fetch Credentials to find Exchange & Route Data this is found in the accounts.py file
         creds = credentials['account_five']
+        exchange = creds[0]
+        key = creds[1]
+        secret = creds[2]
+        start = creds[3]
+        accountDB = creds[4]
+        asset = creds[5]
+        nickname = creds[6]
+        #Route to the correct echange to read & write data
+        if exchange == 'binance':
+            binance(accountDB, key, secret, start, nickname)
+        if exchange == 'bybit':
+            bybit(accountDB, key, secret, start, nickname, asset)
+        if exchange == 'ftx':
+            ftx(accountDB, key, secret, start, nickname)
+
+    if use_account6 == True:
+        # Fetch Credentials to find Exchange & Route Data this is found in the accounts.py file
+        creds = credentials['account_six']
         exchange = creds[0]
         key = creds[1]
         secret = creds[2]
