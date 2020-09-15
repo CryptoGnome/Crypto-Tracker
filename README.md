@@ -26,7 +26,15 @@ https://github.com/CryptoGnome/Crypto-Tracker/archive/master.zip
 
 ## Run Main.py
 
+open CMD prompt
+cd C:path/toyour/directory
+main.py
+
 ## Run App.py & Visit http://localhost:8000/ to view UI
+
+open CMD prompt
+cd C:path/toyour/directory
+app.py
 
 To view from outside source you mus edit the app.py file to match your public ip & set a custom port usign the code below, you then must open the port to outside traffic.
 
