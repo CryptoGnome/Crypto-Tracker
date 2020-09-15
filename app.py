@@ -46,9 +46,9 @@ def index():
             pnl1 = 0
             daily1 = 0
             nickname1 = 'EMPTY'
-            pnlAllData1  = 0
-            labels1 = 0
-            values1 = 0
+            pnlAllData1  = [0,]
+            dates1 = ['NO_DATA']
+            values1 = [0,]
 
         if use_account2 == True:
             conn = sqlite3.connect('tracker.db')
@@ -80,9 +80,9 @@ def index():
             pnl2 = 0
             daily2 = 0
             nickname2 = 'EMPTY'
-            pnlAllData2  = 0
-            labels2 = 0
-            values2 = 0
+            pnlAllData2  = [0,]
+            dates2 = ['NO_DATA']
+            values2 = [0,]
 
         if use_account3 == True:
             conn = sqlite3.connect('tracker.db')
@@ -114,9 +114,9 @@ def index():
             pnl3 = 0
             daily3 = 0
             nickname3 = 'EMPTY'
-            pnlAllData3  = 0
-            labels3 = 0
-            values3 = 0
+            pnlAllData3  = [0,]
+            dates3 = ['NO_DATA']
+            values3 = [0,]
 
         if use_account4 == True:
             conn = sqlite3.connect('tracker.db')
@@ -148,9 +148,9 @@ def index():
             pnl4 = 0
             daily4 = 0
             nickname4 = 'EMPTY'
-            pnlAllData4  = 0
-            labels4 = 0
-            values4 = 0
+            pnlAllData4  = [0,]
+            dates4 = ['NO_DATA']
+            values4 = [0,]
 
         if use_account5 == True:
             conn = sqlite3.connect('tracker.db')
@@ -181,9 +181,9 @@ def index():
             pnl5 = 0
             daily5 = 0
             nickname5 = 'EMPTY'
-            pnlAllData5  = 0
-            labels5 = 0
-            values5 = 0
+            pnlAllData5  = [0,]
+            dates5 = ['NO_DATA']
+            values5 = [0,]
 
         if use_account6 == True:
             conn = sqlite3.connect('tracker.db')
@@ -214,9 +214,9 @@ def index():
             pnl6 = 0
             daily6 = 0
             nickname6 = 'EMPTY'
-            pnlAllData6  = 0
-            labels6 = 0
-            values6 = 0
+            pnlAllData6  = [0,]
+            dates6 = ['NO_DATA']
+            values6 = [0,]
 
 
 
